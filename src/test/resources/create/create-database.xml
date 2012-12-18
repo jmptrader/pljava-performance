@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<preConditions>
+		<dbms type="postgresql" />
+	</preConditions>
+
+	<!-- Liquibase stores absolute file paths in their change log with the location 
+		of every changeset file. They figure that 200 characters is enough length 
+		to hold this information, and I disagree. -->
+
+	<changeSet id="modify changelog column length" author="hhildebrand">
+		<sql><![CDATA[
+            ALTER TABLE databasechangelog
+            ALTER COLUMN filename TYPE varchar(500);
+            ]]>
+
+		</sql>
+	</changeSet>
+
+	<changeSet id="create-database" author="hhildebrand"
+		runInTransaction="false">
+		<sql><![CDATA[
+            CREATE ROLE ${testing.db.login};
+            ALTER ROLE ${testing.db.login} WITH NOSUPERUSER NOINHERIT CREATEROLE NOCREATEDB LOGIN UNENCRYPTED PASSWORD '${testing.db.password}';
+            COMMENT ON ROLE ${testing.db.login} IS 'Owning role of the benchmark test database';
+            ALTER ROLE ${testing.db.login} SET search_path TO public;
+            CREATE DATABASE ${testing.database} OWNER ${testing.db.login} TEMPLATE template1 ENCODING 'UTF8';
+            ]]>
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
