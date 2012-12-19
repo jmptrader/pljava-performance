@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+    <changeSet id="56" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}.BinaryColumnPair
+                AS (col1 bytea, col2 bytea);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="57" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}.MetaDataBooleans
+                AS (method_name varchar(200), result boolean);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="58" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}.MetaDataStrings
+                AS (method_name varchar(200), result varchar);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="60" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}.MetaDataInts
+                AS (method_name varchar(200), result int);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="74" author="hhildebrand">
+        <sql><![CDATA[
+            /* Here's an example of a tuple based UDT that maps
+             * to a Java class.
+             */
+            CREATE TYPE ${testing.schema}.complextuple AS (x float8, y float8);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="35" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}._testSetReturn
+                AS (base integer, incbase integer, ctime timestamptz);
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="44" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TYPE ${testing.schema}._properties
+                AS (name varchar(200), value varchar(200));
+            ]]>
+        </sql>
+    </changeSet>
+    
+</databaseChangeLog>
+

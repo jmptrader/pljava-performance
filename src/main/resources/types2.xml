@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet id="72" author="hhildebrand">
+		<sql><![CDATA[
+            /* The scalar type declaration */
+            CREATE TYPE ${testing.schema}.complex (
+                internallength = 16,
+                input = ${testing.schema}.complex_in,
+                output = ${testing.schema}.complex_out,
+                receive = ${testing.schema}.complex_recv,
+                send = ${testing.schema}.complex_send,
+                alignment = double
+                );
+            ]]>
+		</sql>
+	</changeSet>
+
+    <changeSet id="75" author="hhildebrand">
+        <sql><![CDATA[
+            /* Install the actual type mapping.
+             */
+            SELECT sqlj.add_type_mapping('${testing.schema}.complextuple', 'org.postgresql.pljava.example.ComplexTuple');
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

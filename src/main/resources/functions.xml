@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet id="1" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.java_getTimestamp()
+	            RETURNS timestamp
+	            AS 'org.postgresql.pljava.example.Parameters.getTimestamp'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="2" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.java_getTimestamptz()
+	            RETURNS timestamptz
+	            AS 'org.postgresql.pljava.example.Parameters.getTimestamp'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="3" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(date)
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="4" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(timetz)
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="5" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(timestamptz)
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="6" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print("char")
+	            RETURNS "char"
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="7" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(bytea)
+	            RETURNS bytea
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="8" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int2)
+	            RETURNS int2
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="9" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int2[])
+	            RETURNS int2[]
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="10" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int4)
+	            RETURNS int4
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="11" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int4[])
+	            RETURNS int4[]
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="12" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int8)
+	            RETURNS int8
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="12.5" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(int8[])
+	            RETURNS int8[]
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="13" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(real)
+	            RETURNS real
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="14" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(real[])
+	            RETURNS real[]
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="15" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(double precision)
+	            RETURNS double precision
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="16" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.print(double precision[])
+	            RETURNS double precision[]
+	            AS 'org.postgresql.pljava.example.Parameters.print'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="17" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.printObj(int[])
+	            RETURNS int[]
+	            AS 'org.postgresql.pljava.example.Parameters.print(java.lang.Integer[])'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="18" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.java_addOne(int)
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.Parameters.addOne(java.lang.Integer)'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="19" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.nullOnEven(int)
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.Parameters.nullOnEven'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="20" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.java_getSystemProperty(varchar)
+	            RETURNS varchar
+	            AS 'java.lang.System.getProperty'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="21" author="hhildebrand">
+		<sql><![CDATA[
+	        /* This function should fail since file system access is
+	         * prohibited when the language is trusted.
+	         */
+	        CREATE FUNCTION ${testing.schema}.create_temp_file_trusted()
+	            RETURNS varchar
+	            AS 'org.postgresql.pljava.example.Security.createTempFile'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="23" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.insert_username()
+	            RETURNS trigger
+	            AS 'org.postgresql.pljava.example.Triggers.insertUsername'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="23.5" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.after_username_insert()
+	            RETURNS trigger
+	            AS 'org.postgresql.pljava.example.Triggers.afterUsernameInsert'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="24" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.after_username_update()
+	            RETURNS trigger
+	            AS 'org.postgresql.pljava.example.Triggers.afterUsernameUpdate'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="25" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.leak_statements()
+	            RETURNS trigger
+	            AS 'org.postgresql.pljava.example.Triggers.leakStatements'
+	            LANGUAGE java;
+            ]]>
+        </sql>
+    </changeSet>
+	
+    <changeSet id="25.5" author="hhildebrand">
+        <sql><![CDATA[
+	        CREATE TRIGGER insert_usernames
+	            BEFORE INSERT OR UPDATE ON ${testing.schema}.username_test
+	            FOR EACH ROW
+	            EXECUTE PROCEDURE ${testing.schema}.insert_username (username);
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="26" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE TRIGGER after_insert_usernames
+	            AFTER INSERT ON ${testing.schema}.username_test
+	            FOR EACH ROW
+	            EXECUTE PROCEDURE ${testing.schema}.after_username_insert (username);
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="27" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE TRIGGER after_username_updates
+	            AFTER UPDATE ON ${testing.schema}.username_test
+	            FOR EACH ROW
+	            EXECUTE PROCEDURE ${testing.schema}.after_username_update (username);
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="28" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE TRIGGER username_leak
+	            BEFORE UPDATE ON ${testing.schema}.username_test
+	            FOR EACH ROW
+	            EXECUTE PROCEDURE ${testing.schema}.leak_statements();
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="30" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.moddatetime()
+	            RETURNS trigger
+	            AS 'org.postgresql.pljava.example.Triggers.moddatetime'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="31" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE TRIGGER mdt_moddatetime
+	            BEFORE UPDATE ON ${testing.schema}.mdt
+	            FOR EACH ROW
+	            EXECUTE PROCEDURE ${testing.schema}.moddatetime (moddate);
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="34" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.transferPeople(int)
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.SPIActions.transferPeopleWithSalary'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="36" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.tupleReturnExample(int, int)
+	            RETURNS ${testing.schema}._testSetReturn
+	            AS 'org.postgresql.pljava.example.TupleReturn.tupleReturn'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="37" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.tupleReturnExample2(int, int)
+	            RETURNS ${testing.schema}._testSetReturn
+	            AS 'org.postgresql.pljava.example.TupleReturn.tupleReturn(java.lang.Integer, java.lang.Integer, java.sql.ResultSet)'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="38" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.tupleReturnToString(${testing.schema}._testSetReturn)
+	            RETURNS VARCHAR
+	            AS 'org.postgresql.pljava.example.TupleReturn.makeString'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="39" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.setReturnExample(int, int)
+	            RETURNS SETOF ${testing.schema}._testSetReturn
+	            AS 'org.postgresql.pljava.example.TupleReturn.setReturn'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="40" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.hugeResult(int)
+	            RETURNS SETOF ${testing.schema}._testSetReturn
+	            AS 'org.postgresql.pljava.example.HugeResultSet.executeSelect'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="41" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.hugeNonImmutableResult(int)
+	            RETURNS SETOF ${testing.schema}._testSetReturn
+	            AS 'org.postgresql.pljava.example.HugeResultSet.executeSelect'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="42" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.maxFromSetReturnExample(int, int)
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.SPIActions.maxFromSetReturnExample'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="43" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.nestedStatements(int)
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.SPIActions.nestedStatements'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="45" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.propertyExample()
+	            RETURNS SETOF ${testing.schema}._properties
+	            AS 'org.postgresql.pljava.example.UsingProperties.getProperties'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="46" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.resultSetPropertyExample()
+	            RETURNS SETOF ${testing.schema}._properties
+	            AS 'org.postgresql.pljava.example.UsingPropertiesAsResultSet.getProperties'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="47" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.scalarPropertyExample()
+	            RETURNS SETOF varchar
+	            AS 'org.postgresql.pljava.example.UsingPropertiesAsScalarSet.getProperties'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="48" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.randomInts(int)
+	            RETURNS SETOF int
+	            AS 'org.postgresql.pljava.example.RandomInts.createIterator'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="49" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.listSupers()
+	            RETURNS SETOF pg_user
+	            AS 'org.postgresql.pljava.example.Users.listSupers'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="50" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.listNonSupers()
+	            RETURNS SETOF pg_user
+	            AS 'org.postgresql.pljava.example.Users.listNonSupers'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="51" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.testSavepointSanity()
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.SPIActions.testSavepointSanity'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="52" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.testTransactionRecovery()
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.SPIActions.testTransactionRecovery'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="53" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.getDateAsString()
+	            RETURNS varchar
+	            AS 'org.postgresql.pljava.example.SPIActions.getDateAsString'
+	            STABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="54" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.getTimeAsString()
+	            RETURNS varchar
+	            AS 'org.postgresql.pljava.example.SPIActions.getTimeAsString'
+	            STABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="55" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.logMessage(varchar, varchar)
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.LoggerTest.logMessage'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="56" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.binaryColumnTest()
+	            RETURNS SETOF ${testing.schema}.BinaryColumnPair
+	            AS 'org.postgresql.pljava.example.BinaryColumnTest.getBinaryPairs'
+	            IMMUTABLE LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+	
+    <changeSet id="57" author="hhildebrand">
+        <sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.getMetaDataBooleans()
+	            RETURNS SETOF ${testing.schema}.MetaDataBooleans
+	            AS 'org.postgresql.pljava.example.MetaDataBooleans.getDatabaseMetaDataBooleans'
+                LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="59" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.getMetaDataStrings()
+	            RETURNS SETOF ${testing.schema}.MetaDataStrings
+	            AS 'org.postgresql.pljava.example.MetaDataStrings.getDatabaseMetaDataStrings'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="61" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.getMetaDataInts()
+	            RETURNS SETOF ${testing.schema}.MetaDataInts
+	            AS 'org.postgresql.pljava.example.MetaDataInts.getDatabaseMetaDataInts'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="62" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.callMetaDataMethod(varchar)
+	            RETURNS SETOF varchar
+	            AS 'org.postgresql.pljava.example.MetaDataTest.callMetaDataMethod'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="63" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.executeSelect(varchar)
+	            RETURNS SETOF VARCHAR
+	            AS 'org.postgresql.pljava.example.ResultSetTest.executeSelect'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="64" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.executeSelectToRecords(varchar)
+	            RETURNS SETOF RECORD
+	            AS 'org.postgresql.pljava.example.SetOfRecordTest.executeSelect'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="65" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.countNulls(record)
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.Parameters.countNulls'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="66" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.countNulls(int[])
+	            RETURNS int
+	            AS 'org.postgresql.pljava.example.Parameters.countNulls(java.lang.Integer[])'
+	            LANGUAGE java;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="67" author="hhildebrand">
+		<sql><![CDATA[ 
+	        CREATE FUNCTION ${testing.schema}.complexdummy(cstring) RETURNS ${testing.schema}.complex AS 'lower' LANGUAGE INTERNAL;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="68" author="hhildebrand">
+		<sql><![CDATA[
+	        /* The scalar input function */
+	        CREATE FUNCTION complex_in(cstring)
+	            RETURNS ${testing.schema}.complex
+	            AS 'UDT[org.postgresql.pljava.example.ComplexScalar] input'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="69" author="hhildebrand">
+		<sql><![CDATA[
+	        /* The scalar output function */
+	        CREATE FUNCTION complex_out(${testing.schema}.complex)
+	            RETURNS cstring
+	            AS 'UDT[org.postgresql.pljava.example.ComplexScalar] output'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="70" author="hhildebrand">
+		<sql><![CDATA[
+	        /* The scalar receive function */
+	        CREATE FUNCTION complex_recv(internal)
+	            RETURNS ${testing.schema}.complex
+	            AS 'UDT[org.postgresql.pljava.example.ComplexScalar] receive'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="71" author="hhildebrand">
+		<sql><![CDATA[
+	        /* The scalar send function */
+	        CREATE FUNCTION complex_send(${testing.schema}.complex)
+	            RETURNS bytea
+	            AS 'UDT[org.postgresql.pljava.example.ComplexScalar] send'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="73" author="hhildebrand">
+		<sql><![CDATA[
+	        /* A test function that just logs and returns its argument.
+	         */
+	        CREATE FUNCTION ${testing.schema}.logcomplex(${testing.schema}.complex)
+	            RETURNS ${testing.schema}.complex        
+	            AS 'org.postgresql.pljava.example.ComplexScalar.logAndReturn'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="76" author="hhildebrand">
+		<sql><![CDATA[
+	        /* A test function that just logs and returns its argument.
+	         */
+	        CREATE FUNCTION ${testing.schema}.logcomplex(${testing.schema}.complextuple)
+	            RETURNS ${testing.schema}.complextuple       
+	            AS 'org.postgresql.pljava.example.ComplexTuple.logAndReturn'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="77" author="hhildebrand">
+		<sql><![CDATA[
+	        /*
+	         * An example using the ANY type
+	         */
+	        CREATE FUNCTION ${testing.schema}.loganyelement(anyelement)
+	            RETURNS anyelement
+	            AS 'org.postgresql.pljava.example.AnyTest.logAnyElement'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="78" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.logany("any")
+	            RETURNS void
+	            AS 'org.postgresql.pljava.example.AnyTest.logAny'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+
+	<changeSet id="79" author="hhildebrand">
+		<sql><![CDATA[
+	        CREATE FUNCTION ${testing.schema}.makearray(anyelement)
+	            RETURNS anyarray
+	            AS 'org.postgresql.pljava.example.AnyTest.makeArray'
+	            LANGUAGE java IMMUTABLE STRICT;
+            ]]>
+		</sql>
+	</changeSet>
+</databaseChangeLog>
+            

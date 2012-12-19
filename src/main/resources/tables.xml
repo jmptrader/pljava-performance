@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TABLE ${testing.schema}.username_test
+                (
+                name        text,
+                username    text not null
+                ) WITH OIDS;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="29" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TABLE ${testing.schema}.mdt
+                (
+                id      int4,
+                idesc   text,
+                moddate timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+                );
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="32" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TABLE ${testing.schema}.employees1
+                (
+                id      int PRIMARY KEY,
+                name    varchar(200),   
+                salary  int
+                );
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="33" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TABLE ${testing.schema}.employees2
+                (
+                id      int PRIMARY KEY,
+                name    varchar(200),
+                salary  int,
+                transferDay date,
+                transferTime time
+                );
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

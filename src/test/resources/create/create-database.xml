@@ -26,7 +26,7 @@
 		runInTransaction="false">
 		<sql><![CDATA[
             CREATE ROLE ${testing.db.login};
-            ALTER ROLE ${testing.db.login} WITH NOSUPERUSER NOINHERIT CREATEROLE NOCREATEDB LOGIN UNENCRYPTED PASSWORD '${testing.db.password}';
+            ALTER ROLE ${testing.db.login} WITH SUPERUSER NOINHERIT CREATEROLE NOCREATEDB LOGIN UNENCRYPTED PASSWORD '${testing.db.password}';
             COMMENT ON ROLE ${testing.db.login} IS 'Owning role of the benchmark test database';
             ALTER ROLE ${testing.db.login} SET search_path TO public;
             CREATE DATABASE ${testing.database} OWNER ${testing.db.login} TEMPLATE template1 ENCODING 'UTF8';
