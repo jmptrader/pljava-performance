@@ -725,5 +725,15 @@
             ]]>
 		</sql>
 	</changeSet>
+	
+    <changeSet id="80" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE FUNCTION ${testing.schema}.benchmark_select()
+                RETURNS int8
+                AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select'
+                LANGUAGE javaU;
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
             
