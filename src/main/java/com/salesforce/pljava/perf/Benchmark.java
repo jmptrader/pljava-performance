@@ -28,6 +28,7 @@ package com.salesforce.pljava.perf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,11 +56,9 @@ public class Benchmark {
 
     private final static Logger log = Logger.getLogger(Benchmark.class.getCanonicalName());
 
-    public static long benchmark_select() throws SQLException {
+    public static void benchmark_select() throws SQLException {
         Benchmark benchmark = InDatabase.SINGLETON;
-        long then = System.currentTimeMillis();
         benchmark.benchmarkSelect();
-        return System.currentTimeMillis() - then;
     }
 
     private final Connection connection;
@@ -73,15 +72,23 @@ public class Benchmark {
     }
 
     public void benchmarkSelect() throws SQLException {
+        long nextId = 0;
+        ResultSet r = connection.createStatement().executeQuery("SELECT MAX (e.id) FROM perftesting.employees3 as e");
+        if (r.next()) {
+            nextId = r.getLong(1);
+        }
         Statement statement = connection.createStatement();
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO perftesting.employees3 VALUES(?, ?, ?, ?, ?)");
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
-            rslt.getLong("id");
-            rslt.getString("name");
-            rslt.getInt("salary");
-            rslt.getDate("transferDay");
-            rslt.getTime("transferTime");
+            ps.setLong(1, nextId + rslt.getLong("id") + 1);
+            ps.setString(2, rslt.getString("name"));
+            ps.setInt(3, rslt.getInt("salary"));
+            ps.setDate(4, rslt.getDate("transferDay"));
+            ps.setTime(5, rslt.getTime("transferTime"));
+            ps.executeUpdate();
         }
+        ps.close();
         statement.close();
     }
 }

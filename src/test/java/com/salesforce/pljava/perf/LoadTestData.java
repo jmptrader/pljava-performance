@@ -31,6 +31,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Time;
 import java.util.Properties;
 
@@ -57,10 +58,11 @@ public class LoadTestData {
     }
 
     public void loadEmployees2(int rows) throws Exception {
+        ResultSet result = connection.createStatement().executeQuery("select * from perftesting.employees2");
+        if (result.next()) {
+            return; // don't reload.
+        }
         connection.setAutoCommit(false);
-        System.out.println(String.format("Deleted %s ",
-                                         connection.createStatement().executeUpdate("DELETE FROM perftesting.employees2")));
-        connection.commit();
         PreparedStatement insert = connection.prepareStatement("INSERT INTO perftesting.employees2 VALUES(?, ?, ?, ?, ?)");
         for (int i = 0; i < rows; i++) {
             insert.setLong(1, i);

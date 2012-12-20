@@ -726,10 +726,10 @@
 		</sql>
 	</changeSet>
 	
-    <changeSet id="80" author="hhildebrand">
+    <changeSet id="80" author="hhildebrand" runOnChange="true">
         <sql><![CDATA[
-            CREATE FUNCTION ${testing.schema}.benchmark_select()
-                RETURNS int8
+            CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_select()
+                RETURNS void
                 AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select'
                 LANGUAGE javaU;
             ]]>

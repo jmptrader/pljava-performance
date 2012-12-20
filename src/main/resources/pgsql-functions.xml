@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    
+    <changeSet id="1" author="hhildebrand">
+        <sql splitStatements="false"><![CDATA[
+		    create type perftesting._benchmark as (
+		        code      text,
+		        runtime   real,
+		        corrected real
+		    );
+            ]]>
+        </sql>
+    </changeSet> 
+    
+    <changeSet id="2" author="hhildebrand" runOnChange="true">
+        <sql splitStatements="false"><![CDATA[ 
+			CREATE OR REPLACE FUNCTION perftesting.benchmark(n INTEGER, funcs TEXT[])
+			RETURNS SETOF perftesting._benchmark AS $$
+			DECLARE
+			    code TEXT := '';
+			    a    perftesting._benchmark;
+			BEGIN
+			    -- Start building the custom benchmarking function.
+			    code := $_$
+			        CREATE OR REPLACE FUNCTION perftesting._bench(n INTEGER)
+			        RETURNS SETOF perftesting._benchmark AS $__$
+			        DECLARE
+			            s TIMESTAMP;
+			            e TIMESTAMP;
+			            a RECORD;
+			            d numeric;
+			            res numeric;
+			            ret perftesting._benchmark;
+			        BEGIN
+			            -- Create control.
+			            s := timeofday();
+			            FOR a IN SELECT TRUE FROM generate_series( 1, $_$ || n || $_$ )
+			            LOOP
+			            END LOOP;
+			            e := timeofday();
+			            d := extract(epoch from e) - extract(epoch from s);
+			            ret := ROW( '[Control]', d, 0 );
+			            RETURN NEXT ret;
+			 
+			$_$;
+			    -- Append the code to bench each function call.
+			    FOR i IN array_lower(funcs,1) .. array_upper(funcs, 1) LOOP
+			        code := code || '
+			            s := timeofday();
+			            FOR a IN SELECT ' || funcs[i] || ' FROM generate_series( 1, '
+			                || n || $__$ ) LOOP
+			            END LOOP;
+			            e := timeofday();
+			            res := extract(epoch from e) - extract(epoch from s);
+			            ret := ROW(
+			                $__$ || quote_literal(funcs[i]) || $__$,
+			                res, 
+			                res - d
+			            );
+			            RETURN NEXT ret;
+			$__$;
+			    END LOOP;
+			
+			    -- Create the function.
+			    execute code || $_$
+			        END;
+			        $__$ language plpgsql;
+			$_$; 
+			
+			    -- Now execute the function.
+			    FOR a IN EXECUTE 'SELECT * FROM perftesting._bench(' || n || ')' LOOP
+			        RETURN NEXT a;
+			    END LOOP;
+			
+			    -- Drop the function.
+			    DROP FUNCTION perftesting._bench(integer);
+			    RETURN;
+			END;
+			$$ language 'plpgsql';
+            ]]>
+        </sql>
+    </changeSet> 
+
+
+    <changeSet id="3" author="hhildebrand" runOnChange="true">
+        <sql splitStatements="false"><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select()
+              RETURNS void AS
+            $BODY$
+            DECLARE
+                _nextId int := 0;
+                _id int;
+                _name    varchar(200);
+                _salary  int;
+                _transferDay date;
+                _transferTime time;
+                _r ${testing.schema}.employees2%ROWTYPE;
+            BEGIN
+                SELECT MAX(e.id) into _nextId from ${testing.schema}.employees3 as e;
+                FOR _r in SELECT e.* FROM ${testing.schema}.employees2 AS e 
+                LOOP
+                    _id := _r.id + _nextId + 1;
+                    _name := _r.name;
+                    _salary := _r.salary;
+                    _transferDay := _r.transferDay;
+                    _transferTime := _r.transferTime;
+                    INSERT INTO ${testing.schema}.employees3 VALUES(_id, _name, _salary, _transferDay, _transferTime);
+                END LOOP;
+            END;
+            $BODY$
+              LANGUAGE plpgsql SECURITY DEFINER
+            ]]>
+        </sql>
+    </changeSet> 
+
+</databaseChangeLog>

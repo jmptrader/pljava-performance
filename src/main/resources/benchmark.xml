@@ -13,6 +13,7 @@
     <include relativeToChangelogFile="true" file="tables.xml"/>
     <include relativeToChangelogFile="true" file="types.xml"/>
     <include relativeToChangelogFile="true" file="functions.xml"/>
+    <include relativeToChangelogFile="true" file="pgsql-functions.xml"/>
     <!-- include relativeToChangelogFile="true" file="types2.xml"/-->
 
 </databaseChangeLog>

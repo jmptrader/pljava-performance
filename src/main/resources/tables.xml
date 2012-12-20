@@ -53,5 +53,19 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="34" author="hhildebrand">
+        <sql><![CDATA[
+            CREATE TABLE ${testing.schema}.employees3
+                (
+                id      int PRIMARY KEY,
+                name    varchar(200),
+                salary  int,
+                transferDay date,
+                transferTime time
+                );
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
 

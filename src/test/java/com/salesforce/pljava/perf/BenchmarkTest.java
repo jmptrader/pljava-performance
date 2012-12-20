@@ -27,10 +27,8 @@
 package com.salesforce.pljava.perf;
 
 import java.io.InputStream;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Types;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
@@ -59,21 +57,5 @@ public class BenchmarkTest {
         Benchmark benchmark = new Benchmark(connection);
         benchmark.benchmarkSelect();
         System.out.println("Done");
-    }
-
-    @Test
-    public void testInDbBenchmarkSelect() throws Exception {
-        Class.forName("org.postgresql.Driver");
-        InputStream is = getClass().getResourceAsStream("jdbc.properties");
-        Properties props = new Properties();
-        props.load(is);
-        is.close();
-        String url = props.getProperty("url");
-        Connection connection = DriverManager.getConnection(url, props);
-        CallableStatement call = connection.prepareCall("{ ? = call perftesting.benchmark_select() }");
-        call.registerOutParameter(1, Types.BIGINT);
-        call.execute();
-        System.out.println(String.format("Took %s ms", call.getLong(1)));
-        call.close();
     }
 }
