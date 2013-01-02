@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    
-    
-    <changeSet id="1" author="hhildebrand">
-        <sql splitStatements="false"><![CDATA[
+
+
+	<changeSet id="1" author="hhildebrand">
+		<sql splitStatements="false"><![CDATA[
 		    create type perftesting._benchmark as (
 		        code      text,
 		        runtime   real,
 		        corrected real
 		    );
             ]]>
-        </sql>
-    </changeSet> 
-    
-    <changeSet id="2" author="hhildebrand" runOnChange="true">
-        <sql splitStatements="false"><![CDATA[ 
+		</sql>
+	</changeSet>
+
+	<changeSet id="2" author="hhildebrand" runOnChange="true">
+		<sql splitStatements="false"><![CDATA[ 
 			CREATE OR REPLACE FUNCTION perftesting.benchmark(n INTEGER, funcs TEXT[])
 			RETURNS SETOF perftesting._benchmark AS $$
 			DECLARE
@@ -83,17 +83,17 @@
 			END;
 			$$ language 'plpgsql';
             ]]>
-        </sql>
-    </changeSet> 
+		</sql>
+	</changeSet>
 
 
-    <changeSet id="3" author="hhildebrand" runOnChange="true">
-        <sql splitStatements="false"><![CDATA[
-            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select()
+	<changeSet id="3" author="hhildebrand" runOnChange="true">
+		<sql splitStatements="false"><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select_and_insert()
               RETURNS void AS
             $BODY$
             DECLARE
-                _nextId int := 0;
+                _nextId int;
                 _id int;
                 _name    varchar(200);
                 _salary  int;
@@ -102,6 +102,11 @@
                 _r ${testing.schema}.employees2%ROWTYPE;
             BEGIN
                 SELECT MAX(e.id) into _nextId from ${testing.schema}.employees3 as e;
+                CASE _nextId
+                    WHEN NULL THEN 
+                        _nextId := 0;
+                    ELSE
+                END CASE;
                 FOR _r in SELECT e.* FROM ${testing.schema}.employees2 AS e 
                 LOOP
                     _id := _r.id + _nextId + 1;
@@ -115,7 +120,77 @@
             $BODY$
               LANGUAGE plpgsql SECURITY DEFINER
             ]]>
-        </sql>
-    </changeSet> 
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="4" author="hhildebrand" runOnChange="true">
+		<sql splitStatements="false"><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_empty()
+              RETURNS void AS
+            $BODY$
+            BEGIN
+            END;
+            $BODY$
+              LANGUAGE plpgsql SECURITY DEFINER
+            ]]>
+		</sql>
+	</changeSet>
+	
+	<changeSet id="5" author="hhildebrand" runOnChange="true">
+		<sql splitStatements="false"><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select()
+              RETURNS void AS
+            $BODY$
+            DECLARE
+                _id int;
+                _name    varchar(200);
+                _salary  int;
+                _transferDay date;
+                _transferTime time;
+                _r ${testing.schema}.employees2%ROWTYPE;
+            BEGIN
+                FOR _r in SELECT e.* FROM ${testing.schema}.employees2 AS e 
+                LOOP
+                    _id := _r.id;
+                    _name := _r.name;
+                    _salary := _r.salary;
+                    _transferDay := _r.transferDay;
+                    _transferTime := _r.transferTime;
+                END LOOP;
+            END;
+            $BODY$
+              LANGUAGE plpgsql SECURITY DEFINER
+            ]]>
+		</sql>
+	</changeSet>
+	
+	<changeSet id="6" author="hhildebrand" runOnChange="true">
+		<sql splitStatements="false"><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select_one()
+              RETURNS void AS
+            $BODY$
+            DECLARE
+                _id int;
+                _name    varchar(200);
+                _salary  int;
+                _transferDay date;
+                _transferTime time;
+                _r ${testing.schema}.employees2%ROWTYPE;
+            BEGIN
+                FOR _r in SELECT e.* FROM ${testing.schema}.employees2 AS e where e.id = 0
+                LOOP
+                    _id := _r.id;
+                    _name := _r.name;
+                    _salary := _r.salary;
+                    _transferDay := _r.transferDay;
+                    _transferTime := _r.transferTime;
+                END LOOP;
+            END;
+            $BODY$
+              LANGUAGE plpgsql SECURITY DEFINER
+            ]]>
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>

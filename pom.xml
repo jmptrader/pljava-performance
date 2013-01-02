@@ -39,7 +39,6 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.driver.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

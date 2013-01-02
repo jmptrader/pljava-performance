@@ -56,9 +56,23 @@ public class Benchmark {
 
     private final static Logger log = Logger.getLogger(Benchmark.class.getCanonicalName());
 
+    public static void benchmark_empty() {
+
+    }
+
     public static void benchmark_select() throws SQLException {
         Benchmark benchmark = InDatabase.SINGLETON;
         benchmark.benchmarkSelect();
+    }
+
+    public static void benchmark_select_and_insert() throws SQLException {
+        Benchmark benchmark = InDatabase.SINGLETON;
+        benchmark.benchmarkSelectAndInsert();
+    }
+
+    public static void benchmark_select_one() throws SQLException {
+        Benchmark benchmark = InDatabase.SINGLETON;
+        benchmark.benchmarkSelectOne();
     }
 
     private final Connection connection;
@@ -72,6 +86,19 @@ public class Benchmark {
     }
 
     public void benchmarkSelect() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
+        while (rslt.next()) {
+            rslt.getLong(1);
+            rslt.getString(2);
+            rslt.getInt(3);
+            rslt.getDate(4);
+            rslt.getTime(5);
+        }
+        statement.close();
+    }
+
+    public void benchmarkSelectAndInsert() throws SQLException {
         long nextId = 0;
         ResultSet r = connection.createStatement().executeQuery("SELECT MAX (e.id) FROM perftesting.employees3 as e");
         if (r.next()) {
@@ -81,14 +108,27 @@ public class Benchmark {
         PreparedStatement ps = connection.prepareStatement("INSERT INTO perftesting.employees3 VALUES(?, ?, ?, ?, ?)");
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
-            ps.setLong(1, nextId + rslt.getLong("id") + 1);
-            ps.setString(2, rslt.getString("name"));
-            ps.setInt(3, rslt.getInt("salary"));
-            ps.setDate(4, rslt.getDate("transferDay"));
-            ps.setTime(5, rslt.getTime("transferTime"));
-            ps.executeUpdate();
+            ps.setLong(1, nextId + rslt.getLong(1) + 1);
+            ps.setString(2, rslt.getString(2));
+            ps.setInt(3, rslt.getInt(3));
+            ps.setDate(4, rslt.getDate(4));
+            ps.setTime(5, rslt.getTime(5));
+            ps.execute();
         }
         ps.close();
+        statement.close();
+    }
+
+    public void benchmarkSelectOne() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e where e.id = 0");
+        while (rslt.next()) {
+            rslt.getLong(1);
+            rslt.getString(2);
+            rslt.getInt(3);
+            rslt.getDate(4);
+            rslt.getTime(5);
+        }
         statement.close();
     }
 }
