@@ -765,5 +765,25 @@
             ]]>
         </sql>
     </changeSet>
+    
+    <changeSet id="84" author="hhildebrand" runOnChange="true">
+        <sql><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_select_and_do_something()
+                RETURNS void
+                AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select_and_do_something'
+                LANGUAGE javaU;
+            ]]>
+        </sql>
+    </changeSet>
+    
+    <changeSet id="85" author="hhildebrand" runOnChange="true">
+        <sql><![CDATA[
+            CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_validate_upc()
+                RETURNS boolean
+                AS 'com.salesforce.pljava.perf.Benchmark.benchmark_validate_upc'
+                LANGUAGE javaU;
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
             

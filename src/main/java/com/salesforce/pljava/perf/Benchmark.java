@@ -60,9 +60,19 @@ public class Benchmark {
 
     }
 
+    public static boolean benchmark_validate_upc() throws SQLException {
+        Benchmark benchmark = InDatabase.SINGLETON;
+        return benchmark.validateUPC();
+    }
+
     public static void benchmark_select() throws SQLException {
         Benchmark benchmark = InDatabase.SINGLETON;
         benchmark.benchmarkSelect();
+    }
+
+    public static void benchmark_select_and_do_something() throws SQLException {
+        Benchmark benchmark = InDatabase.SINGLETON;
+        benchmark.benchmarkSelectAndDoSomething();
     }
 
     public static void benchmark_select_and_insert() throws SQLException {
@@ -87,6 +97,7 @@ public class Benchmark {
 
     public void benchmarkSelect() throws SQLException {
         Statement statement = connection.createStatement();
+        statement.setFetchSize(10000);
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
             rslt.getLong(1);
@@ -98,6 +109,22 @@ public class Benchmark {
         statement.close();
     }
 
+    public void benchmarkSelectAndDoSomething() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.setFetchSize(10000);
+        ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
+        while (rslt.next()) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(rslt.getLong(1));
+            builder.append(rslt.getString(2));
+            builder.append(rslt.getInt(3));
+            builder.append(rslt.getDate(4));
+            builder.append(rslt.getTime(5));
+            builder.toString();
+        }
+        statement.close();
+    }
+
     public void benchmarkSelectAndInsert() throws SQLException {
         long nextId = 0;
         ResultSet r = connection.createStatement().executeQuery("SELECT MAX (e.id) FROM perftesting.employees3 as e");
@@ -105,6 +132,7 @@ public class Benchmark {
             nextId = r.getLong(1);
         }
         Statement statement = connection.createStatement();
+        statement.setFetchSize(10000);
         PreparedStatement ps = connection.prepareStatement("INSERT INTO perftesting.employees3 VALUES(?, ?, ?, ?, ?)");
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
@@ -121,6 +149,7 @@ public class Benchmark {
 
     public void benchmarkSelectOne() throws SQLException {
         Statement statement = connection.createStatement();
+        statement.setFetchSize(1);
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e where e.id = 0");
         while (rslt.next()) {
             rslt.getLong(1);
@@ -130,5 +159,33 @@ public class Benchmark {
             rslt.getTime(5);
         }
         statement.close();
+    }
+
+    public boolean validateUPC() throws SQLException {
+        String upc = "639382000393";
+        int offset = 0;
+        if (upc.length() == 13) {
+            offset = 1;
+        } else if (upc.length() != 12) {
+            throw new SQLException(String.format("%s is not a valid UPC", upc));
+        }
+
+        int odd = Integer.parseInt(upc.substring(offset, 1 + offset))
+                  + Integer.parseInt(upc.substring(2 + offset, 3 + offset))
+                  + Integer.parseInt(upc.substring(4 + offset, 5 + offset))
+                  + Integer.parseInt(upc.substring(6 + offset, 7 + offset))
+                  + Integer.parseInt(upc.substring(8 + offset, 9 + offset))
+                  + Integer.parseInt(upc.substring(10 + offset, 11 + offset));
+        int even = Integer.parseInt(upc.substring(1 + offset, 2 + offset))
+                   + Integer.parseInt(upc.substring(3 + offset, 4 + offset))
+                   + Integer.parseInt(upc.substring(5 + offset, 6 + offset))
+                   + Integer.parseInt(upc.substring(7 + offset, 8 + offset))
+                   + Integer.parseInt(upc.substring(9 + offset, 10 + offset));
+
+        int code = 10 - (((odd * 3) + even) % 10);
+        if (code == Integer.parseInt(upc.substring(11 + offset, 12 + offset))) {
+            return true;
+        }
+        return false;
     }
 }

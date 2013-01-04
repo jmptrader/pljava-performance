@@ -55,7 +55,20 @@ public class BenchmarkTest {
         String url = props.getProperty("url");
         Connection connection = DriverManager.getConnection(url, props);
         Benchmark benchmark = new Benchmark(connection);
-        benchmark.benchmarkSelect();
+        benchmark.benchmarkSelectOne();
         System.out.println("Done");
+    }
+
+    @Test
+    public void testUPC() throws Exception {
+        Class.forName("org.postgresql.Driver");
+        InputStream is = getClass().getResourceAsStream("jdbc.properties");
+        Properties props = new Properties();
+        props.load(is);
+        is.close();
+        String url = props.getProperty("url");
+        Connection connection = DriverManager.getConnection(url, props);
+        Benchmark benchmark = new Benchmark(connection);
+        System.out.println("Done: " + benchmark.validateUPC());
     }
 }
