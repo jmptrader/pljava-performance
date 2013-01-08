@@ -729,7 +729,7 @@
     <changeSet id="80" author="hhildebrand" runOnChange="true">
         <sql><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_select()
-                RETURNS void
+                RETURNS int
                 AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select'
                 LANGUAGE javaU;
             ]]>
@@ -759,7 +759,7 @@
     <changeSet id="83" author="hhildebrand" runOnChange="true">
         <sql><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_select_one()
-                RETURNS void
+                RETURNS int
                 AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select_one'
                 LANGUAGE javaU;
             ]]>
@@ -769,7 +769,7 @@
     <changeSet id="84" author="hhildebrand" runOnChange="true">
         <sql><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.benchmark_select_and_do_something()
-                RETURNS void
+                RETURNS int
                 AS 'com.salesforce.pljava.perf.Benchmark.benchmark_select_and_do_something'
                 LANGUAGE javaU;
             ]]>

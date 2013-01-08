@@ -65,14 +65,14 @@ public class Benchmark {
         return benchmark.validateUPC();
     }
 
-    public static void benchmark_select() throws SQLException {
+    public static int benchmark_select() throws SQLException {
         Benchmark benchmark = InDatabase.SINGLETON;
-        benchmark.benchmarkSelect();
+        return benchmark.benchmarkSelect();
     }
 
-    public static void benchmark_select_and_do_something() throws SQLException {
+    public static int benchmark_select_and_do_something() throws SQLException {
         Benchmark benchmark = InDatabase.SINGLETON;
-        benchmark.benchmarkSelectAndDoSomething();
+        return benchmark.benchmarkSelectAndDoSomething();
     }
 
     public static void benchmark_select_and_insert() throws SQLException {
@@ -95,22 +95,25 @@ public class Benchmark {
         this(DriverManager.getConnection("jdbc:default:connection"));
     }
 
-    public void benchmarkSelect() throws SQLException {
+    public int benchmarkSelect() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
+        int length = 0;
         while (rslt.next()) {
             rslt.getLong(1);
-            rslt.getString(2);
+            length = rslt.getString(2).length();
             rslt.getInt(3);
             rslt.getDate(4);
             rslt.getTime(5);
         }
         statement.close();
+        return length;
     }
 
-    public void benchmarkSelectAndDoSomething() throws SQLException {
+    public int benchmarkSelectAndDoSomething() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
+        int size = 0;
         while (rslt.next()) {
             StringBuilder builder = new StringBuilder();
             builder.append(rslt.getLong(1));
@@ -118,9 +121,10 @@ public class Benchmark {
             builder.append(rslt.getInt(3));
             builder.append(rslt.getDate(4));
             builder.append(rslt.getTime(5));
-            builder.toString();
+            size = builder.toString().length();
         }
         statement.close();
+        return size;
     }
 
     public void benchmarkSelectAndInsert() throws SQLException {
@@ -144,18 +148,20 @@ public class Benchmark {
         statement.close();
     }
 
-    public void benchmarkSelectOne() throws SQLException {
+    public int benchmarkSelectOne() throws SQLException {
         Statement statement = connection.createStatement();
         statement.setFetchSize(1);
+        int length = 0;
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e where e.id = 0");
         while (rslt.next()) {
             rslt.getLong(1);
-            rslt.getString(2);
+            length = rslt.getString(2).length();
             rslt.getInt(3);
             rslt.getDate(4);
             rslt.getTime(5);
         }
         statement.close();
+        return length;
     }
 
     public boolean validateUPC() throws SQLException {

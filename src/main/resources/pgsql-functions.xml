@@ -140,7 +140,7 @@
 	<changeSet id="5" author="hhildebrand" runOnChange="true">
 		<sql splitStatements="false"><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select()
-              RETURNS void AS
+              RETURNS int AS
             $BODY$
             DECLARE
                 _id int;
@@ -158,6 +158,7 @@
                     _transferDay := _r.transferDay;
                     _transferTime := _r.transferTime;
                 END LOOP;
+                return char_length(_name);
             END;
             $BODY$
               LANGUAGE plpgsql SECURITY DEFINER
@@ -168,7 +169,7 @@
 	<changeSet id="6" author="hhildebrand" runOnChange="true">
 		<sql splitStatements="false"><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select_one()
-              RETURNS void AS
+              RETURNS int AS
             $BODY$
             DECLARE
                 _id int;
@@ -186,6 +187,7 @@
                     _transferDay := _r.transferDay;
                     _transferTime := _r.transferTime;
                 END LOOP;
+                return char_length(_name);
             END;
             $BODY$
               LANGUAGE plpgsql SECURITY DEFINER
@@ -196,7 +198,7 @@
     <changeSet id="7" author="hhildebrand" runOnChange="true">
         <sql splitStatements="false"><![CDATA[
             CREATE OR REPLACE FUNCTION ${testing.schema}.pg_benchmark_select_and_do_something()
-              RETURNS void AS
+              RETURNS int AS
             $BODY$
             DECLARE
                 _id int;
@@ -215,6 +217,7 @@
                     _transferTime := _r.transferTime;
                     _name := _name || _id || _salary || _transferDay || _transferTime;
                 END LOOP;
+                return char_length(_name);
             END;
             $BODY$
               LANGUAGE plpgsql SECURITY DEFINER
