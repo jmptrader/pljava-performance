@@ -97,7 +97,6 @@ public class Benchmark {
 
     public void benchmarkSelect() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.setFetchSize(10000);
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
             rslt.getLong(1);
@@ -111,7 +110,6 @@ public class Benchmark {
 
     public void benchmarkSelectAndDoSomething() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.setFetchSize(10000);
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
             StringBuilder builder = new StringBuilder();
@@ -132,7 +130,6 @@ public class Benchmark {
             nextId = r.getLong(1);
         }
         Statement statement = connection.createStatement();
-        statement.setFetchSize(10000);
         PreparedStatement ps = connection.prepareStatement("INSERT INTO perftesting.employees3 VALUES(?, ?, ?, ?, ?)");
         ResultSet rslt = statement.executeQuery("select e.* from perftesting.employees2 as e");
         while (rslt.next()) {
